@@ -61,7 +61,7 @@ try{
                 $ltext += $cnt.Substring($k, 1)
                 $j++;
             }
-            $texts += ($d.date + "`n" + $ltext)
+            $texts += @($d.date + "`n" + $ltext)
         }
         Write-Host "Total commit / ${i}"
     }
