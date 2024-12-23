@@ -42,14 +42,13 @@ try{
     }
     $data = $data + @{cid = $cid; date = $date}
     [array]::Reverse($data)
-    $i = 0;
-    foreach($d in $data){
-        git checkout $d.cid $file
-        if (Test-Path $file) {$i++;
-            $iS = $i.toString()
+    $texts = @()
+    $i = 0
+    foreach($d in $data){$i++
+        git "checkout" $d.cid $file
+        if (Test-Path $file) {
             $content = Get-Content $file
-            Set-Content -Path ("../gtl"+ $iS +".txt") -Value $d.date
-            Add-Content -Path ("../gtl"+ $iS +".txt") -Value $content
+            $texts += $d.date + $content
         }
     }
 }catch{}finally{
