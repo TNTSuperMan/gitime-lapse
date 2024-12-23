@@ -10,8 +10,9 @@ try{
 @@@@@@@@@@@@@@@@@@@@@@@@
 "
 
-    $repo = Read-Host -Prompt "repository url"
-    $file = Read-Host -Prompt "file path"
+    $repo = "https://github.com/TNTSuperMan/Rjs"#Read-Host -Prompt "repository url"
+    $file = "package.json"#Read-Host -Prompt "file path"
+    $maxl = "100"#Read-Host -Prompt "word break size"
     if(Test-Path tmp){
         Remove-Item -Path tmp -Recurse -Force
     }
@@ -47,9 +48,22 @@ try{
     foreach($d in $data){$i++
         git "checkout" $d.cid $file
         if (Test-Path $file) {
-            $content = Get-Content $file
-            $texts += $d.date + $content
+            $cnt = [IO.File]::ReadAllText("tmp\repo\"+$file)
+            $ltext = "";
+            $j = 0;
+            for($k = 0;$k -lt $cnt.Length;$k++){
+                if(([int]$maxl -lt $j) -or ($cnt.Substring($k,1) -eq "`n")){
+                    if([int]$maxl -lt $j){
+                        $ltext += "`n"
+                    }
+                    $j = 0
+                }
+                $ltext += $cnt.Substring($k, 1)
+                $j++;
+            }
+            $texts += ($d.date + "`n" + $ltext)
         }
+        Write-Host "Total commit / ${i}"
     }
     Write-Host "Completed to output code"
 }catch{
