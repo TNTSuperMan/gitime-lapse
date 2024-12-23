@@ -17,9 +17,9 @@ try{
     }
     mkdir tmp
     Push-Location tmp
-    git clone $repo
+    git clone $repo repo
 
-    Push-Location (Get-ChildItem -Path ./)[0]
+    Push-Location repo
 
     $list = (git log).split("`n")
 
