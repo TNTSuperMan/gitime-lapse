@@ -51,7 +51,9 @@ try{
             $texts += $d.date + $content
         }
     }
-}catch{}finally{
+    Write-Host "Completed to output code"
+}catch{
+    Write-Host $_.Exception
+}finally{
     Set-Location $pos
 }
-
