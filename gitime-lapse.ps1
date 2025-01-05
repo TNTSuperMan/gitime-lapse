@@ -13,10 +13,10 @@ try{
         Write-Host "Not found ffmpeg.exe`nPlease drop ffmpeg.exe to gitime-lapse directory"
         exit
     }
-    $repo = "https://github.com/TNTSuperMan/Rjs"#Read-Host -Prompt "repository url"
-    $file = "package.json"#Read-Host -Prompt "file path"
-    $width = "500"#Read-Host -Prompt "image width"
-    $height ="600"#Read-Host -Prompt "image height"
+    $repo = Read-Host -Prompt "repository url"
+    $file = Read-Host -Prompt "file path"
+    $width = Read-Host -Prompt "image width"
+    $height =Read-Host -Prompt "image height"
     if(Test-Path tmp){
         Remove-Item -Path tmp -Recurse -Force
     }
