@@ -16,11 +16,9 @@ try{
     if(Test-Path tmp){
         Remove-Item -Path tmp -Recurse -Force
     }
-    mkdir tmp
-    Push-Location tmp
-    git clone $repo repo
+    git clone $repo tmp
 
-    Push-Location repo
+    Push-Location tmp
 
     $list = (git log).split("`n")
 
