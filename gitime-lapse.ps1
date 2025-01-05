@@ -50,7 +50,6 @@ try{
             $cnt = [IO.File]::ReadAllText("tmp\"+$file)
             $texts += @($d.date + "`n" + $cnt)
         }
-        Write-Host "Total commit / ${i}"
     }
     Add-Type -AssemblyName System.Drawing
 
@@ -73,7 +72,7 @@ try{
         $format = [System.Drawing.StringFormat]::new()
     
         $g.FillRectangle($black, 0, 0, [int]$width, [int]$height)
-        $g.DrawString($white, $font, $black, $rect, $format)
+        $g.DrawString($text, $font, $white, $rect, $format)
     
         $g.Dispose()
         $font.Dispose()
