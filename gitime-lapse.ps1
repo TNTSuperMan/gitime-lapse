@@ -12,8 +12,8 @@ try{
 
     $repo = "https://github.com/TNTSuperMan/Rjs"#Read-Host -Prompt "repository url"
     $file = "package.json"#Read-Host -Prompt "file path"
-    $width = "2000"#Read-Host -Prompt "image width"
-    $height ="2000"#Read-Host -Prompt "image height"
+    $width = "500"#Read-Host -Prompt "image width"
+    $height ="600"#Read-Host -Prompt "image height"
     if(Test-Path tmp){
         Remove-Item -Path tmp -Recurse -Force
     }
@@ -48,11 +48,13 @@ try{
         git "checkout" $d.cid $file
         if (Test-Path $file) {
             $cnt = [IO.File]::ReadAllText("tmp\"+$file)
-            $texts += @($d.date + "`n" + $cnt)
+            $texts += @($d.date + "`n`n" + $cnt)
+            Write-Host "Total commit / ${i}"
         }
     }
-    Add-Type -AssemblyName System.Drawing
+    Pop-Location
 
+    Add-Type -AssemblyName System.Drawing
     if(Test-Path imgs){
         Remove-Item -Path imgs -Recurse -Force
     }
