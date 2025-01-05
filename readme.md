@@ -1,13 +1,12 @@
 # gitime-lapse
-git(クローンURLから)からプログラミングタイムラプスを生成するプログラム
-## 進行状況
-Powershellで各コミットごとのファイル生成はできた  
-テキストを画像に変換してからffmpegなりでつなげたい
-
-画像変換はテキストを折り返し処理してから画像に描画する
-
-https://maywork.net/computer/powershell-drawtext-ps1/
-
-> 🤖＜.NETの機能を使えばいいのに
-
-https://learn.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-draw-wrapped-text-in-a-rectangle?view=netframeworkdesktop-4.8
+git(クローンURLから)からプログラミングタイムラプスを生成するプログラムです。
+## セットアップ
+※自己責任です。ウイルスに感染しても責任は取りません。
+1. [ffmpeg.org](https://ffmpeg.org/)からffmpegプログラムをダウンロードし、ffmpeg.exeをこのフォルダに移動してください。
+2. gitをインストールしてください。
+3. Powershellスクリプトの実行許可を与えてください。参考：[Windows PowerShell でスクリプトの実行を許可する方法](https://denno-sekai.com/windows-powershell-executionpolicy/)
+## 実行
+1. タイムラプスにしたいGitHubURL・ファイルパス・大きさ等を用意してください。
+2. Powershellを起動してください。
+3. このフォルダで`./gitime-lapse.ps1`を実行し、プロンプトに答えてから待ってください。
+4. このフォルダの`./out.mp4`に結果が出力されます。
