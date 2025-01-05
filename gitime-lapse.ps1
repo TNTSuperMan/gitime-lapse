@@ -12,7 +12,8 @@ try{
 
     $repo = "https://github.com/TNTSuperMan/Rjs"#Read-Host -Prompt "repository url"
     $file = "package.json"#Read-Host -Prompt "file path"
-    $maxl = "100"#Read-Host -Prompt "word break size"
+    $width = "2000"#Read-Host -Prompt "image width"
+    $height ="2000"#Read-Host -Prompt "image height"
     if(Test-Path tmp){
         Remove-Item -Path tmp -Recurse -Force
     }
@@ -47,23 +48,44 @@ try{
         git "checkout" $d.cid $file
         if (Test-Path $file) {
             $cnt = [IO.File]::ReadAllText("tmp\"+$file)
-            $ltext = "";
-            $j = 0;
-            for($k = 0;$k -lt $cnt.Length;$k++){
-                if(([int]$maxl -lt $j) -or ($cnt.Substring($k,1) -eq "`n")){
-                    if([int]$maxl -lt $j){
-                        $ltext += "`n"
-                    }
-                    $j = 0
-                }
-                $ltext += $cnt.Substring($k, 1)
-                $j++;
-            }
-            $texts += @($d.date + "`n" + $ltext)
+            $texts += @($d.date + "`n" + $cnt)
         }
         Write-Host "Total commit / ${i}"
     }
-    Write-Host "Completed to output code"
+    Add-Type -AssemblyName System.Drawing
+
+    if(Test-Path imgs){
+        Remove-Item -Path imgs -Recurse -Force
+    }
+    mkdir imgs
+
+    function Draw($text, $i){
+        $bmp = [System.Drawing.Bitmap]::new([int]$width, [int]$height)
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $g.TextRenderingHint = "AntiAlias"
+    
+        $font = [System.Drawing.Font]::new("MS Gothic", 12)
+        $black = [System.Drawing.SolidBrush]::new([System.Drawing.Color]::Black)
+        $white = [System.Drawing.SolidBrush]::new([System.Drawing.Color]::White)
+    
+        $rect = [System.Drawing.RectangleF]::new(0, 0, [int]$width, [int]$height)
+    
+        $format = [System.Drawing.StringFormat]::new()
+    
+        $g.FillRectangle($black, 0, 0, [int]$width, [int]$height)
+        $g.DrawString($white, $font, $black, $rect, $format)
+    
+        $g.Dispose()
+        $font.Dispose()
+        $Out = [System.IO.Path]::GetFullPath("imgs/"+ $i.ToString() +".png")
+        $bmp.Save($Out, [System.Drawing.Imaging.ImageFormat]::Png)
+        $bmp.Dispose()
+    }
+    $i = 0
+    foreach($text in $texts){
+        Draw $text $i
+        $i++
+    }
 }catch{
     Write-Host $_.Exception
 }finally{
