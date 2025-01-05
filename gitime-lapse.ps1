@@ -46,7 +46,7 @@ try{
     foreach($d in $data){$i++
         git "checkout" $d.cid $file
         if (Test-Path $file) {
-            $cnt = [IO.File]::ReadAllText("tmp\repo\"+$file)
+            $cnt = [IO.File]::ReadAllText("tmp\"+$file)
             $ltext = "";
             $j = 0;
             for($k = 0;$k -lt $cnt.Length;$k++){
