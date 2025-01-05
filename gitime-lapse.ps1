@@ -44,12 +44,13 @@ try{
     [array]::Reverse($data)
     $texts = @()
     $i = 0
+    $l = $data.Length.ToString()
     foreach($d in $data){$i++
+        Write-Host "Extracting code...  ${i} / ${l}"
         git "checkout" $d.cid $file
         if (Test-Path $file) {
             $cnt = [IO.File]::ReadAllText("tmp\"+$file)
             $texts += @($d.date + "`n`n" + $cnt)
-            Write-Host "Total commit / ${i}"
         }
     }
     Pop-Location
@@ -81,11 +82,12 @@ try{
         $Out = [System.IO.Path]::GetFullPath("imgs/"+ $i.ToString() +".png")
         $bmp.Save($Out, [System.Drawing.Imaging.ImageFormat]::Png)
         $bmp.Dispose()
+        Write-Host "Exporting image...  ${i} / ${l}"
     }
     $i = 0
     foreach($text in $texts){
-        Draw $text $i
         $i++
+        Draw $text $i
     }
 }catch{
     Write-Host $_.Exception
