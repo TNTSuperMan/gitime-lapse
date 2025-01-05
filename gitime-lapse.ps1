@@ -9,7 +9,10 @@ try{
 @@(C)TNTSuperMan 2024 @@
 @@@@@@@@@@@@@@@@@@@@@@@@
 "
-
+    if(!(Test-Path ffmpeg.exe)){
+        Write-Host "Not found ffmpeg.exe`nPlease drop ffmpeg.exe to gitime-lapse directory"
+        exit
+    }
     $repo = "https://github.com/TNTSuperMan/Rjs"#Read-Host -Prompt "repository url"
     $file = "package.json"#Read-Host -Prompt "file path"
     $width = "500"#Read-Host -Prompt "image width"
@@ -79,16 +82,18 @@ try{
     
         $g.Dispose()
         $font.Dispose()
-        $Out = [System.IO.Path]::GetFullPath("imgs/"+ $i.ToString() +".png")
+        $Out = [System.IO.Path]::GetFullPath("imgs/"+ $i.ToString("D9") +".png")
         $bmp.Save($Out, [System.Drawing.Imaging.ImageFormat]::Png)
         $bmp.Dispose()
-        Write-Host "Exporting image...  ${i} / ${l}"
+        Write-Host "Exporting images...  ${i} / ${l}"
     }
     $i = 0
     foreach($text in $texts){
         $i++
         Draw $text $i
     }
+    Write-Host "Merging images..."
+    ./ffmpeg.exe "-r" "30" "-i" "imgs/%09d.png" "-vcodec" "libx264" "-pix_fmt" "yuv420p" "out.mp4"
 }catch{
     Write-Host $_.Exception
 }finally{
